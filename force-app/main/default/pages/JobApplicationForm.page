@@ -1,3 +1,104 @@
-<apex:page controller="JobApplicationFormController">
-	
+<apex:page docType="html-5.0" controller="JobApplicationFormController">
+	<style>
+		.application__form {
+			width: 60%;
+			min-width: 400px;
+			margin: auto;
+			position: relative;
+		}
+		.section__header {
+			margin: 20px auto 10px;
+			text-align: center;
+			padding: 10px;
+			background-color: #ccc;
+		}
+		.form__group {
+			display: flex;
+			flex-direction: row;
+			justify-content: space-between;
+		}
+		.form__field {
+			border:0;
+			border-bottom:1px solid #555;
+			background:transparent;
+			padding:8px 0 5px 0;
+			font-size:16px;
+			color:#fff;
+			position: relative;
+		}
+		.form__label {
+			display: block;
+			font-size: 1rem;
+			color: #9b9b9b;
+		}
+		.form__field:focus{ 
+			border:none;
+			outline:none;
+			border-bottom:1px solid #e74c3c;	
+		}
+	</style>
+	<apex:slds />
+	<div class="application__form">
+		<div class="section__header">
+			Job Application Form
+		</div>
+		<apex:form >
+			<div class="form__group">
+				<div>
+					<apex:inputField value="{!form.FirstName__c}" styleClass="form__field"/>
+					<label class="form__label">First Name</label>
+				</div>
+				<div>
+					<apex:inputField value="{!form.LastName__c}" styleClass="form__field"/>
+					<label class="form__label">Last Name</label>
+				</div>
+				<div>
+					<apex:inputField value="{!form.DateOfBirth__c}" styleClass="form__field"/>
+					<label class="form__label">Date Of Birth</label>
+				</div>
+			</div>
+			<div class="section__header">
+				Contact information
+			</div>
+			<div class="form__group">
+				<div>
+					<apex:inputField value="{!form.Email__c}" styleClass="form__field"/>
+					<label class="form__label">Email</label>
+				</div>
+				<div>
+					<apex:inputField value="{!form.MobilePhone__c}" styleClass="form__field"/>
+					<label class="form__label">Mobile Phone</label>
+				</div>
+			</div>
+			<div class="section__header">
+				Address
+			</div>
+			<div class="form__group">
+				<div>
+					<apex:inputField value="{!form.City__c}" styleClass="form__field"/>
+					<label class="form__label">City</label>
+				</div>
+				<div>
+					<apex:inputField value="{!form.Street__c}" styleClass="form__field"/>
+					<label class="form__label">Street</label>
+				</div>
+				<div>
+					<apex:inputField value="{!form.PostalCode__c}" styleClass="form__field"/>
+					<label class="form__label">Postal Code</label>
+				</div>
+			</div>
+			<div class="section__header">
+				Education
+			</div>
+			<div class="form__group">
+				<div>
+					<!-- <apex:inputField value="{!form.City__c}" styleClass="form__field"/>
+					<label class="form__label">City</label> -->
+				</div>
+			</div>
+
+
+			<apex:commandButton value="submit" action="{!submit}"/>
+		</apex:form>
+	</div>
 </apex:page>
