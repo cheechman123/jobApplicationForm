@@ -19,6 +19,7 @@
 		}
 		.form__field {
 			border:0;
+			width: 90%;
 			border-bottom:1px solid #555;
 			background:transparent;
 			padding:8px 0 5px 0;
@@ -43,60 +44,115 @@
 			Job Application Form
 		</div>
 		<apex:form >
-			<div class="form__group">
-				<div>
-					<apex:inputField value="{!form.FirstName__c}" styleClass="form__field"/>
+			<div class="slds-grid form__group">
+				<div class="slds-col slds-size_5-of-12">
+					<apex:inputField required="true" value="{!form.FirstName__c}" styleClass="form__field"/>
 					<label class="form__label">First Name</label>
 				</div>
-				<div>
-					<apex:inputField value="{!form.LastName__c}" styleClass="form__field"/>
+				<div class="slds-col slds-size_5-of-12">
+					<apex:inputField required="true" value="{!form.LastName__c}" styleClass="form__field"/>
 					<label class="form__label">Last Name</label>
 				</div>
-				<div>
-					<apex:inputField value="{!form.DateOfBirth__c}" styleClass="form__field"/>
+				<div class="slds-col slds-size_2-of-12">
+					<apex:inputField required="true" value="{!form.DateOfBirth__c}" styleClass="form__field"/>
 					<label class="form__label">Date Of Birth</label>
 				</div>
 			</div>
 			<div class="section__header">
 				Contact information
 			</div>
-			<div class="form__group">
-				<div>
-					<apex:inputField value="{!form.Email__c}" styleClass="form__field"/>
+			<div class="slds-grid form__group">
+				<div class="slds-col slds-size_6-of-12">
+					<apex:inputField required="true" value="{!form.Email__c}" styleClass="form__field"/>
 					<label class="form__label">Email</label>
 				</div>
-				<div>
-					<apex:inputField value="{!form.MobilePhone__c}" styleClass="form__field"/>
+				<div class="slds-col slds-size_3-of-12">
+					<apex:inputField required="true" value="{!form.MobilePhone__c}" styleClass="form__field"/>
 					<label class="form__label">Mobile Phone</label>
+				</div>
+				<div class="slds-col slds-size_3-of-12">
+					<apex:inputField required="true" value="{!form.HomePhone__c}" styleClass="form__field"/>
+					<label class="form__label">Home Phone</label>
 				</div>
 			</div>
 			<div class="section__header">
 				Address
 			</div>
-			<div class="form__group">
-				<div>
+			<div class="slds-grid form__group">
+				<div class="slds-col slds-size_3-of-12">
 					<apex:inputField value="{!form.City__c}" styleClass="form__field"/>
 					<label class="form__label">City</label>
 				</div>
-				<div>
+				<div class="slds-col slds-size_7-of-12">
 					<apex:inputField value="{!form.Street__c}" styleClass="form__field"/>
 					<label class="form__label">Street</label>
 				</div>
-				<div>
+				<div class="slds-col slds-size_2-of-12">
 					<apex:inputField value="{!form.PostalCode__c}" styleClass="form__field"/>
 					<label class="form__label">Postal Code</label>
 				</div>
 			</div>
 			<div class="section__header">
-				Education
+				Skill levels
 			</div>
-			<div class="form__group">
-				<div>
-					<!-- <apex:inputField value="{!form.City__c}" styleClass="form__field"/>
-					<label class="form__label">City</label> -->
-				</div>
+			<div class="slds-grid form__group">
+				<table class="slds-table">
+					<thead>
+						<tr>
+							<th class="slds-col slds-size_6-of-12">
+								<div class="slds-truncate" title="Skill Name">Skill Name</div>
+							</th>
+							<th class="slds-col slds-size_4-of-12">
+								<div class="slds-truncate" title="Skill Level">Skill Level</div>
+							</th>
+							<th class="slds-col slds-size_2-of-12">
+								<div class="slds-truncate" title="Add"><apex:commandButton value="+" action="{!addSkill}"/></div>
+							</th>
+						</tr>
+					</thead>
+					<tbody>
+						<apex:repeat value="{!skills}" var="skill" >
+							<tr>
+								<td>
+									<div class="slds-truncate" title="Skill Name">{!skill.name}</div>
+								</td>
+								<td>
+									<div class="slds-truncate" title="Skill Level">{!skill.level}</div>
+								</td>
+								<td>
+									<div class="slds-truncate" title="Skill Level">{!skill.level}</div>
+								</td>
+							</tr>
+						</apex:repeat>
+						<tr>
+							<apex:outputPanel rendered="{!addNewSkill}" >
+								<td>
+									<div class="slds-truncate" title="Skill Name">
+										<input type="text" id="skillname" placeholder="Skill Name" class="slds-input" />
+									</div>
+								</td>
+								<td>
+									<div class="slds-truncate" title="Skill Level">
+										<div class="slds-form-element__control">
+											<div class="slds-select_container">
+												<select class="slds-select" id="select-01">
+													<option value="">Select…</option>
+													<option>Option One</option>
+													<option>Option Two</option>
+													<option>Option Three</option>
+												</select>
+											</div>
+										</div>
+									</div>
+								</td>
+								<td>
+									<div class="slds-truncate" title="Save"><apex:commandButton value="Save" action="{!save}"/></div>
+								</td>
+							</apex:outputPanel>
+						</tr>
+					</tbody>
+				</table>
 			</div>
-
 
 			<apex:commandButton value="submit" action="{!submit}"/>
 		</apex:form>
