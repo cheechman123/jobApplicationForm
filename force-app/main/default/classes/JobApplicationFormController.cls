@@ -2,9 +2,13 @@ public class JobApplicationFormController {
 	public JobApplicationForm__c form {get;set;}
 	public List<Skill> skills {get;set;}
 	public Boolean addNewSkill {get;set;}
+	public String skillName {get;set;}
+	public String skillLevel {get;set;}
+	public String skillToRemove {get;set;}
 
 	public JobApplicationFormController() {
 		this.form = new JobApplicationForm__c();
+		this.skills = new List<Skill>();
 	}
 
 	public PageReference submit() {
@@ -31,16 +35,28 @@ public class JobApplicationFormController {
 	}
 
 	public void addSkill() {
-		this.addNewSkill = true;
+		if (this.skills.size() < 10) {
+			this.addNewSkill = true;
+		}
+	}
+
+	public void removeSkill() {
+		System.debug(this.skillToRemove);
 	}
 
 	public void save() {
+		Skill skill = new Skill();
+		skill.name = this.skillName;
+		skill.level = this.skillLevel;
+		this.skills.add(skill);
+		
 		this.addNewSkill = false;
+		this.skillName = '';
+		this.skillLevel = '';
 	}
 
 	public class Skill {
 		public String name {get;set;}
 		public String level {get;set;}
 	}
-
 }
