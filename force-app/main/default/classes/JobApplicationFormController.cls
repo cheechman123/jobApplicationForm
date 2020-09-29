@@ -41,7 +41,11 @@ public class JobApplicationFormController {
 	}
 
 	public void removeSkill() {
-		System.debug(this.skillToRemove);
+		for (Integer i = 0; i < this.skills.size(); i++) {
+			if (this.skills[i].name.equals(this.skillToRemove)) {
+				this.skills.remove(i--);
+			}
+		}
 	}
 
 	public void save() {
@@ -49,7 +53,7 @@ public class JobApplicationFormController {
 		skill.name = this.skillName;
 		skill.level = this.skillLevel;
 		this.skills.add(skill);
-		
+
 		this.addNewSkill = false;
 		this.skillName = '';
 		this.skillLevel = '';

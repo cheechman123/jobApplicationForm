@@ -112,8 +112,8 @@
 							</th>
 						</tr>
 					</thead>
-					<tbody>
-						<apex:repeat value="{!skills}" var="skill" >
+					<tbody id="skilltable">
+						<apex:repeat value="{!skills}" var="skill">
 							<tr>
 								<td>
 									<div class="slds-truncate" title="Skill Name">{!skill.name}</div>
@@ -122,12 +122,13 @@
 									<div class="slds-truncate" title="Skill Level">{!skill.level}</div>
 								</td>
 								<td>
-									<apex:commandButton value="Remove" action="{!removeSkill}">
+									<apex:commandLink styleClass="slds-button slds-button_outline-brand" value="Remove" action="{!removeSkill}" >
 										<apex:param name="skillName" value="{!skill.name}" assignTo="{!skillToRemove}"/>
-									</apex:commandButton>
+									</apex:commandLink>
 								</td>
 							</tr>
 						</apex:repeat>
+						
 						<tr>
 							<apex:outputPanel rendered="{!addNewSkill}" >
 								<td>
