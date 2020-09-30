@@ -41,6 +41,7 @@
 			border-bottom:1px solid #e74c3c;	
 		}
 	</style>
+	
 	<apex:slds />
 	<div class="application__form">
 		<div class="section__header">
@@ -55,9 +56,13 @@
 				<div class="slds-col slds-size_5-of-12">
 					<apex:inputField required="true" value="{!form.LastName__c}" styleClass="form__field"/>
 					<label class="form__label">Last Name</label>
+					<apex:inputFile onchange="onFileInputChange()" value="{!file}" accept="image/*"/>
+					<apex:image url="/servlet/servlet.FileDownload?file={!imageId}" height="100" width="100" rendered="{!NOT(ISBLANK(imageId))}"></apex:image>
+					<apex:actionFunction name="loadImage" action="{!loadImage}"/>
 				</div>
 				<div class="slds-col slds-size_2-of-12">
 					<apex:inputField required="true" value="{!form.DateOfBirth__c}" styleClass="{!IF(LEN(birthDateError) > 0, 'form__field field__error', 'form__field')}"/>
+					
 					<label class="form__label">Date Of Birth</label>
 					<apex:outputText style='color:red' value="{!birthDateError}" rendered="{!LEN(birthDateError) > 0}"/>
 				</div>
@@ -161,4 +166,9 @@
 			<apex:commandButton value="submit" action="{!submit}"/>
 		</apex:form>
 	</div>
+	<script>
+		function onFileInputChange() {
+			loadImage();
+		}
+	</script>
 </apex:page>
