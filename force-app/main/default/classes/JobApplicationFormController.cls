@@ -5,6 +5,7 @@ public class JobApplicationFormController {
 	public String skillName {get;set;}
 	public String skillLevel {get;set;}
 	public String skillToRemove {get;set;}
+	public String birthDateError {get;set;}
 
 	public JobApplicationFormController() {
 		this.form = new JobApplicationForm__c();
@@ -12,9 +13,14 @@ public class JobApplicationFormController {
 	}
 
 	public PageReference submit() {
+		if (System.today().Year() - this.form.DateOfBirth__c.Year() < 18 || 
+			(System.today().Year() - this.form.DateOfBirth__c.Year() == 18 && System.today().month() - this.form.DateOfBirth__c.month() < 0)) {
+			this.birthDateError = 'The candidate should be older that 18 years!';
+			return null;
+		}
 		Contact contact = new Contact();
-		contact.FirstName__c = this.form.FirstName__c;
-		contact.LastName__c = this.form.LastName__c;
+		contact.FirstName = this.form.FirstName__c;
+		contact.LastName = this.form.LastName__c;
 		contact.Phone = this.form.MobilePhone__c;
 		contact.HomePhone = this.form.HomePhone__c;
 		contact.Email = this.form.Email__c;
