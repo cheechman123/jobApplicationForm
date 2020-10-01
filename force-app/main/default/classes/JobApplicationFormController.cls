@@ -1,6 +1,6 @@
 public class JobApplicationFormController {
 	public JobApplicationForm__c form {get;set;}
-	public List<Skill> skills {get;set;}
+	public List<Skill__c> skills {get;set;}
 	public Boolean addNewSkill {get;set;}
 	public String skillName {get;set;}
 	public String skillLevel {get;set;}
@@ -11,7 +11,7 @@ public class JobApplicationFormController {
 
 	public JobApplicationFormController() {
 		this.form = new JobApplicationForm__c();
-		this.skills = new List<Skill>();
+		this.skills = new List<Skill__c>();
 	}
 
 	public void loadImage() {
@@ -36,27 +36,30 @@ public class JobApplicationFormController {
 			return null;
 		}
 
-		return null;
-		// Contact contact = new Contact();
-		// contact.FirstName = this.form.FirstName__c;
-		// contact.LastName = this.form.LastName__c;
-		// contact.Phone = this.form.MobilePhone__c;
-		// contact.HomePhone = this.form.HomePhone__c;
-		// contact.Email = this.form.Email__c;
-		// contact.ContactType__c = 'Employee';
-		// insert contact;
+		Contact contact = new Contact();
+		contact.FirstName = this.form.FirstName__c;
+		contact.LastName = this.form.LastName__c;
+		contact.Phone = this.form.MobilePhone__c;
+		contact.HomePhone = this.form.HomePhone__c;
+		contact.Email = this.form.Email__c;
+		contact.ContactType__c = 'Employee';
+		insert contact;
 
-		// Employee__c employee = new Employee__c();
-		// employee.Name = contact.Name;
-		// employee.DateOfBirth__c = this.form.DateOfBirth__c;
-		// employee.Email__c = this.form.Email__c;
-		// employee.Phone__c = this.form.MobilePhone__c;
-		// employee.HomePhone__c = this.form.HomePhone__c;
-		// employee.EmployeeContact__c = contact.Id;
-		// insert employee;
-		// PageReference page = new PageReference('/' + employee.Id);
-		// page.setRedirect(true);
-		// return page;
+		Employee__c employee = new Employee__c();
+		employee.Name = this.form.FirstName__c + ' ' + this.form.LastName__c;
+		employee.DateOfBirth__c = this.form.DateOfBirth__c;
+		employee.Email__c = this.form.Email__c;
+		employee.Phone__c = this.form.MobilePhone__c;
+		employee.HomePhone__c = this.form.HomePhone__c;
+		employee.EmployeeContact__c = contact.Id;
+		insert employee;
+		for (Skill__c skill : this.skills) {
+			skill.Employee__c = employee.Id;
+		}
+		insert skills;
+		PageReference page = new PageReference('/' + employee.Id);
+		page.setRedirect(true);
+		return page;
 	}
 
 	public void addSkill() {
@@ -67,16 +70,16 @@ public class JobApplicationFormController {
 
 	public void removeSkill() {
 		for (Integer i = 0; i < this.skills.size(); i++) {
-			if (this.skills[i].name.equals(this.skillToRemove)) {
+			if (this.skills[i].Name.equals(this.skillToRemove)) {
 				this.skills.remove(i--);
 			}
 		}
 	}
 
 	public void save() {
-		Skill skill = new Skill();
-		skill.name = this.skillName;
-		skill.level = this.skillLevel;
+		Skill__c skill = new Skill__c();
+		skill.Name = this.skillName;
+		skill.Level__c = this.skillLevel;
 		this.skills.add(skill);
 
 		this.addNewSkill = false;

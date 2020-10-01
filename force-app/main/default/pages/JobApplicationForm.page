@@ -125,14 +125,14 @@
 						<apex:repeat value="{!skills}" var="skill">
 							<tr>
 								<td>
-									<div class="slds-truncate" title="Skill Name">{!skill.name}</div>
+									<div class="slds-truncate" title="Skill Name">{!skill.Name}</div>
 								</td>
 								<td>
-									<div class="slds-truncate" title="Skill Level">{!skill.level}</div>
+									<div class="slds-truncate" title="Skill Level">{!skill.Level__c}</div>
 								</td>
 								<td>
 									<apex:commandLink styleClass="slds-button slds-button_outline-brand" value="Remove" action="{!removeSkill}" >
-										<apex:param name="skillName" value="{!skill.name}" assignTo="{!skillToRemove}"/>
+										<apex:param name="skillName" value="{!skill.Name}" assignTo="{!skillToRemove}"/>
 									</apex:commandLink>
 								</td>
 							</tr>
