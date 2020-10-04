@@ -12,11 +12,6 @@
 			padding: 10px;
 			background-color: #ccc;
 		}
-		.form__group {
-			display: flex;
-			flex-direction: row;
-			justify-content: space-between;
-		}
 		.form__field {
 			border:0;
 			width: 90%;
@@ -62,7 +57,7 @@
 				</div>
 			</div>
 			
-			<div class="slds-grid form__group">
+			<div class="slds-grid">
 				<div class="slds-col slds-size_1-of-2">
 					<div class="section__header">
 						Contact information
@@ -89,7 +84,7 @@
 			<div class="section__header">
 				Skills
 			</div>
-			<div class="slds-grid form__group">
+			<div class="slds-grid">
 				<table class="slds-table slds-table_bordered">
 					<thead>
 						<tr>
