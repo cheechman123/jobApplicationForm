@@ -7,10 +7,10 @@
 			position: relative;
 		}
 		.section__header {
-			margin: 20px auto 10px;
-			text-align: center;
-			padding: 10px;
-			background-color: #ccc;
+			margin: 30px auto 10px;
+			color: #343434;
+			font-size: 27px;
+			font-family: 'Orienta', sans-serif;
 		}
 		.form__field {
 			border:0;
@@ -42,6 +42,9 @@
 		<apex:form id="imageblock">
 			<div class="slds-grid slds-wrap">
 				<div class="slds-col slds-size_6-of-12">
+					<div class="section__header">
+						Personal information
+					</div>
 					<apex:inputField required="true" value="{!form.FirstName__c}" styleClass="form__field"/>
 					<label class="form__label">First Name</label>
 					<apex:inputField required="true" value="{!form.LastName__c}" styleClass="form__field"/>
