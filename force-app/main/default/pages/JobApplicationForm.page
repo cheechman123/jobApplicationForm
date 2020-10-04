@@ -3,7 +3,7 @@
 		.application__form {
 			width: 60%;
 			min-width: 400px;
-			margin: auto;
+			margin: 20px auto;
 			position: relative;
 		}
 		.section__header {
@@ -44,65 +44,50 @@
 	
 	<apex:slds />
 	<div class="application__form">
-		<div class="section__header">
-			Job Application Form
-		</div>
-		<apex:form >
-			<div class="slds-grid form__group">
-				<div class="slds-col slds-size_5-of-12">
+		<apex:form id="imageblock">
+			<div class="slds-grid slds-wrap">
+				<div class="slds-col slds-size_6-of-12">
 					<apex:inputField required="true" value="{!form.FirstName__c}" styleClass="form__field"/>
 					<label class="form__label">First Name</label>
-				</div>
-				<div class="slds-col slds-size_5-of-12">
 					<apex:inputField required="true" value="{!form.LastName__c}" styleClass="form__field"/>
 					<label class="form__label">Last Name</label>
-					<apex:inputFile onchange="onFileInputChange()" value="{!file}" accept="image/*"/>
-					<apex:image url="/servlet/servlet.FileDownload?file={!imageId}" height="100" width="100" rendered="{!NOT(ISBLANK(imageId))}"></apex:image>
-					<apex:actionFunction name="loadImage" action="{!loadImage}"/>
-				</div>
-				<div class="slds-col slds-size_2-of-12">
 					<apex:inputField required="true" value="{!form.DateOfBirth__c}" styleClass="{!IF(LEN(birthDateError) > 0, 'form__field field__error', 'form__field')}"/>
-					
 					<label class="form__label">Date Of Birth</label>
 					<apex:outputText style='color:red' value="{!birthDateError}" rendered="{!LEN(birthDateError) > 0}"/>
 				</div>
-			</div>
-			<div class="section__header">
-				Contact information
-			</div>
-			<div class="slds-grid form__group">
 				<div class="slds-col slds-size_6-of-12">
+					<apex:inputFile style="margin-top: 10px; float:right" onchange="onFileInputChange(); return false;" value="{!file}" accept="image/*"/>
+					<apex:image style="margin-top: 10px;" url="/servlet/servlet.FileDownload?file={!imageId}" height="300" width="200" rendered="{!NOT(ISBLANK(imageId))}" />
+					<apex:actionFunction name='onFileInputChange' action='{!loadImage}' />
+				</div>
+			</div>
+			
+			<div class="slds-grid form__group">
+				<div class="slds-col slds-size_1-of-2">
+					<div class="section__header">
+						Contact information
+					</div>
 					<apex:inputField required="true" value="{!form.Email__c}" styleClass="form__field"/>
 					<label class="form__label">Email</label>
-				</div>
-				<div class="slds-col slds-size_3-of-12">
 					<apex:inputField required="true" value="{!form.MobilePhone__c}" styleClass="form__field"/>
 					<label class="form__label">Mobile Phone</label>
-				</div>
-				<div class="slds-col slds-size_3-of-12">
 					<apex:inputField required="true" value="{!form.HomePhone__c}" styleClass="form__field"/>
 					<label class="form__label">Home Phone</label>
 				</div>
-			</div>
-			<div class="section__header">
-				Address
-			</div>
-			<div class="slds-grid form__group">
-				<div class="slds-col slds-size_3-of-12">
+				<div class="slds-col slds-size_1-of-2">
+					<div class="section__header">
+						Address
+					</div>
 					<apex:inputField value="{!form.City__c}" styleClass="form__field"/>
 					<label class="form__label">City</label>
-				</div>
-				<div class="slds-col slds-size_7-of-12">
 					<apex:inputField value="{!form.Street__c}" styleClass="form__field"/>
 					<label class="form__label">Street</label>
-				</div>
-				<div class="slds-col slds-size_2-of-12">
 					<apex:inputField value="{!form.PostalCode__c}" styleClass="form__field"/>
 					<label class="form__label">Postal Code</label>
 				</div>
 			</div>
 			<div class="section__header">
-				Skill levels
+				Skills
 			</div>
 			<div class="slds-grid form__group">
 				<table class="slds-table slds-table_bordered">
