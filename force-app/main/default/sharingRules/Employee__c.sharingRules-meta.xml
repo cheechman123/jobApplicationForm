@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SharingRules xmlns="http://soap.sforce.com/2006/04/metadata">
+    <sharingCriteriaRules>
+        <fullName>ResearcherToManagers</fullName>
+        <accessLevel>Edit</accessLevel>
+        <label>Researchers To Managers</label>
+        <sharedTo>
+            <role>EmployeeManager</role>
+        </sharedTo>
+        <criteriaItems>
+            <field>Stage__c</field>
+            <operation>equals</operation>
+            <value>Recommended</value>
+        </criteriaItems>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>ResearchersToHRs</fullName>
+        <accessLevel>Edit</accessLevel>
+        <label>Researchers To HRs</label>
+        <sharedTo>
+            <role>HR</role>
+        </sharedTo>
+        <criteriaItems>
+            <field>Stage__c</field>
+            <operation>equals</operation>
+            <value>New</value>
+        </criteriaItems>
+    </sharingCriteriaRules>
+</SharingRules>
