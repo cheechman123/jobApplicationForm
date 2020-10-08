@@ -47,6 +47,8 @@ public class JobApplicationFormController {
 
 		Employee__c employee = new Employee__c();
 		employee.Name = this.form.FirstName__c + ' ' + this.form.LastName__c;
+		employee.FirstName__c = this.form.FirstName__c;
+		employee.LastName__c = this.form.LastName__c;
 		employee.DateOfBirth__c = this.form.DateOfBirth__c;
 		employee.Email__c = this.form.Email__c;
 		employee.Phone__c = this.form.MobilePhone__c;
