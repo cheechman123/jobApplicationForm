@@ -74,6 +74,8 @@
 					<label class="form__label">Mobile Phone</label>
 					<apex:inputField required="true" value="{!employee.HomePhone__c}" styleClass="form__field"/>
 					<label class="form__label">Home Phone</label>
+					<apex:inputField value="{!employee.SalaryExpectations__c}" styleClass="form__field"/>
+					<label class="form__label">Salary Expectations</label>
 				</div>
 				<div class="slds-col slds-size_1-of-2">
 					<div class="section__header">

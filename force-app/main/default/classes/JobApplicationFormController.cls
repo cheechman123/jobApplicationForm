@@ -47,6 +47,7 @@ public class JobApplicationFormController {
 
 		this.employee.Name = this.employee.FirstName__c + ' ' + this.employee.LastName__c;
 		this.employee.EmployeeContact__c = contact.Id;
+		this.employee.PhotoUrl__c = '/servlet/servlet.FileDownload?file=' + this.imageId;
 		insert employee;
 		for (Skill__c skill : this.skills) {
 			skill.Employee__c = employee.Id;
