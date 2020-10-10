@@ -54,12 +54,9 @@
 					<apex:outputText style='color:red' value="{!birthDateError}" rendered="{!LEN(birthDateError) > 0}"/>
 				</div>
 				<div class="slds-col slds-size_6-of-12">
-					<!-- <apex:actionRegion>
-						<apex:commandbutton action="{!loadImage}" value="Show photo" reRender="imageblock"/>
-					</apex:actionRegion> -->
-					<apex:inputFile style="margin-top: 10px; float:right" onchange="onFileInputChange(); return false;" value="{!file}" accept="image/*"/>
-					<apex:image style="margin-top: 10px;" url="/servlet/servlet.FileDownload?file={!imageId}" height="300" width="200" rendered="{!NOT(ISBLANK(imageId))}" />
-					<apex:actionFunction name='onFileInputChange' action='{!loadImage}' />
+					<input id="candidate-photo" onchange="getFile(event)" type="file" accept="image/*"/>
+					<label class="form__label">Candidate photo</label>
+					<img style="height: 300px; display:none;" id="output"/>
 				</div>
 			</div>
 			
@@ -154,4 +151,15 @@
 			<apex:commandButton value="submit" action="{!submit}"/>
 		</apex:form>
 	</div>
+	<script>
+		function getFile(event) {
+			var reader = new FileReader();
+			reader.onload = function(){
+				var output = document.getElementById('output');
+				output.style.display = 'block';
+				output.src = reader.result;
+			};
+			reader.readAsDataURL(event.target.files[0]);
+		}
+	</script>
 </apex:page>
