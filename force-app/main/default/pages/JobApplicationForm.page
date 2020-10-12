@@ -161,13 +161,5 @@
 			};
 			reader.readAsDataURL(file.files[0]);
 		}
-		function submitJS() {
-			var fileInput = document.getElementById('candidate-photo');
-			var reader = new FileReader();
-			reader.onload = function(){
-				onSubmit(reader.result);
-			};
-			reader.readAsBinaryString(fileInput.target.files[0]);
-		}
 	</script>
 </apex:page>
