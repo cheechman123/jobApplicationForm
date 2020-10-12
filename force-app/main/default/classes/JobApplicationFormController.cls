@@ -14,7 +14,12 @@ public class JobApplicationFormController {
 		this.skills = new List<Skill__c>();
 	}
 
-	public void loadImage() {
+	public PageReference submit() {
+		if (System.today().Year() - this.employee.DateOfBirth__c.Year() < 18 || 
+			(System.today().Year() - this.employee.DateOfBirth__c.Year() == 18 && System.today().month() - this.employee.DateOfBirth__c.month() < 0)) {
+			this.birthDateError = 'The candidate should be older that 18 years!';
+			return null;
+		}
 		Folder folder = [SELECT Id FROM Folder WHERE DeveloperName = 'CandidatePhotos'];
 		Document document = new Document();
 		document.name = 'User Avatar';
@@ -25,15 +30,6 @@ public class JobApplicationFormController {
 		List<Document> attachedFiles = [SELECT Id FROM Document WHERE Id =: document.Id];
 		if( attachedFiles != null && attachedFiles.size() > 0 ) {
 			this.imageId = attachedFiles[0].Id;
-		}
-		System.debug(this.imageId);
-	}
-
-	public PageReference submit() {
-		if (System.today().Year() - this.employee.DateOfBirth__c.Year() < 18 || 
-			(System.today().Year() - this.employee.DateOfBirth__c.Year() == 18 && System.today().month() - this.employee.DateOfBirth__c.month() < 0)) {
-			this.birthDateError = 'The candidate should be older that 18 years!';
-			return null;
 		}
 
 		Contact contact = new Contact();
