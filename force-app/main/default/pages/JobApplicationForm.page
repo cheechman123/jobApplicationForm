@@ -35,6 +35,13 @@
 			outline:none;
 			border-bottom:1px solid #e74c3c;	
 		}
+		.button__justify {
+			display: flex; 
+			justify-content: center;
+		}
+		.bold__text {
+			font-weight: bold;
+		}
 	</style>
 	
 	<apex:slds />
@@ -54,9 +61,11 @@
 					<apex:outputText style='color:red' value="{!birthDateError}" rendered="{!LEN(birthDateError) > 0}"/>
 				</div>
 				<div class="slds-col slds-size_6-of-12">
-					<apex:inputFile id="candidate_photo" style="margin-top: 30px" onchange="getFile(this)" accept="image/*" value="{!file}"/>
-					<label class="form__label">Candidate photo</label>
-					<img style="height: 300px; display:none;" id="output"/>
+					<div class="section__header">
+						Photo
+					</div>
+					<apex:inputFile id="candidate_photo" onchange="getFile(this)" accept="image/*" value="{!file}"/>
+					<img style="height: 300px; margin-right:auto; margin-left: auto; display:none" class="slds-m-top_small" id="output" src="{!imageFileContent}"/>
 				</div>
 			</div>
 			
@@ -90,16 +99,16 @@
 				Skills
 			</div>
 			<div class="slds-grid">
-				<table class="slds-table slds-table_bordered">
-					<thead>
+				<table class="slds-table">
+					<thead style="border-bottom: 1px solid grey">
 						<tr>
 							<th class="slds-col slds-size_6-of-12">
 								<div class="slds-truncate" title="Skill Name">Skill Name</div>
 							</th>
-							<th class="slds-col slds-size_4-of-12">
+							<th class="slds-col slds-size5_5-of-12">
 								<div class="slds-truncate" title="Skill Level">Skill Level</div>
 							</th>
-							<th class="slds-col slds-size_2-of-12">
+							<th class="slds-col slds-size_1-of-12">
 								<div class="slds-truncate" title="Add">
 									<apex:commandButton styleClass="slds-button" disabled="{!skills.size = 10}" value="ADD" action="{!addSkill}"/>
 								</div>
@@ -116,13 +125,12 @@
 									<div class="slds-truncate" title="Skill Level">{!skill.Level__c}</div>
 								</td>
 								<td>
-									<apex:commandLink style="font-weight: bold" styleClass="slds-button" value="REMOVE" action="{!removeSkill}" >
+									<apex:commandLink styleClass="slds-button button__justify bold__text" value="REMOVE" action="{!removeSkill}" >
 										<apex:param name="skillName" value="{!skill.Name}" assignTo="{!skillToRemove}"/>
 									</apex:commandLink>
 								</td>
 							</tr>
 						</apex:repeat>
-						
 						<tr>
 							<apex:outputPanel rendered="{!addNewSkill}" >
 								<td>
@@ -140,7 +148,7 @@
 									</div>
 								</td>
 								<td>
-									<div class="slds-truncate" title="Save"><apex:commandButton style="font-weight: bold" styleClass="slds-button" value="SAVE" action="{!save}"/></div>
+									<div class="slds-truncate" title="Save"><apex:commandButton styleClass="slds-button button__justify bold__text" value="SAVE" action="{!save}"/></div>
 								</td>
 							</apex:outputPanel>
 						</tr>
@@ -148,7 +156,7 @@
 				</table>
 			</div>
 
-			<apex:commandButton styleClass="slds-button" style="font-weight: bold; float: right; margin-top: 30px" value="SUBMIT" action="{!submit}"/>
+			<apex:commandButton styleClass="slds-button bold__text slds-m-top_large slds-float_right" style="padding: 5px 10px; border: 1px solid #eee" value="SUBMIT" action="{!submit}"/>
 		</apex:form>
 	</div>
 	<script>
