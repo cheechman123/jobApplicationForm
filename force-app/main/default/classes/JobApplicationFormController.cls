@@ -20,17 +20,12 @@ public class JobApplicationFormController {
 			this.birthDateError = 'The candidate should be older that 18 years!';
 			return null;
 		}
-		Folder folder = [SELECT Id FROM Folder WHERE DeveloperName = 'CandidatePhotos'];
-		Document document = new Document();
-		document.name = 'User Avatar';
-		document.body = this.file;
-		document.folderId = folder.Id;
-		insert document;
-
-		List<Document> attachedFiles = [SELECT Id FROM Document WHERE Id =: document.Id];
-		if( attachedFiles != null && attachedFiles.size() > 0 ) {
-			this.imageId = attachedFiles[0].Id;
-		}
+		ContentVersion image = new ContentVersion();
+		image.VersionData = Blob.valueOf('string');
+		image.Title = 'Candidate Photo ' + this.employee.LastName__c; 
+		image.VersionData = this.file;
+		image.PathOnClient = '/Candidate Photo ' + this.employee.LastName__c ;
+		insert image;
 
 		Contact contact = new Contact();
 		contact.FirstName = this.employee.FirstName__c;
@@ -40,10 +35,10 @@ public class JobApplicationFormController {
 		contact.Email = this.employee.Email__c;
 		contact.ContactType__c = 'Employee';
 		insert contact;
-
+		
 		this.employee.Name = this.employee.FirstName__c + ' ' + this.employee.LastName__c;
+		this.employee.PhotoUrl__c = '/sfc/servlet.shepherd/version/download/' + image.Id;
 		this.employee.EmployeeContact__c = contact.Id;
-		this.employee.PhotoUrl__c = '/servlet/servlet.FileDownload?file=' + this.imageId;
 		insert employee;
 		for (Skill__c skill : this.skills) {
 			skill.Employee__c = employee.Id;
