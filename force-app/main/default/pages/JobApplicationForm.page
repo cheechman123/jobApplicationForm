@@ -64,8 +64,13 @@
 					<div class="section__header">
 						Photo
 					</div>
-					<apex:inputFile id="candidate_photo" onchange="getFile(this)" accept="image/*" value="{!file}"/>
-					<img style="height: 300px; margin-right:auto; margin-left: auto; display:none" class="slds-m-top_small" id="output" src="{!imageFileContent}"/>
+					<apex:inputFile id="candidate_photo" onchange="getFile(this)" style="" accept="image/*" value="{!file}"/>
+					<apex:outputPanel rendered="{!ISBLANK(imageId)}" >
+						<img style="height: 300px; margin-right:auto; margin-left: auto; display:none" class="slds-m-top_small" id="output"/>
+					</apex:outputPanel>
+					<apex:outputPanel rendered="{!NOT(ISBLANK(imageId))}" >
+						<img src="{!'/sfc/servlet.shepherd/version/download/' + imageId}" style="height: 300px; margin-right:auto; margin-left: auto; display:block;" class="slds-m-top_small" id="output"/>
+					</apex:outputPanel>
 				</div>
 			</div>
 			

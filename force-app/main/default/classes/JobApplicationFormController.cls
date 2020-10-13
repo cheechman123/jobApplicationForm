@@ -7,7 +7,11 @@ public class JobApplicationFormController {
 	public String skillToRemove {get;set;}
 	public String birthDateError {get;set;}
 	public String imageId {get;set;}
-	public Blob file{get;set;}
+	public Blob file {get;set {
+		this.fileChanged = true;
+		file = value;
+	}}
+	public Boolean fileChanged {get;set;}
 
 	public JobApplicationFormController() {
 		this.employee = new Employee__c();
@@ -20,13 +24,6 @@ public class JobApplicationFormController {
 			this.birthDateError = 'The candidate should be older that 18 years!';
 			return null;
 		}
-		ContentVersion image = new ContentVersion();
-		image.VersionData = Blob.valueOf('string');
-		image.Title = 'Candidate Photo ' + this.employee.LastName__c; 
-		image.VersionData = this.file;
-		image.PathOnClient = '/Candidate Photo ' + this.employee.LastName__c ;
-		insert image;
-
 		Contact contact = new Contact();
 		contact.FirstName = this.employee.FirstName__c;
 		contact.LastName = this.employee.LastName__c;
@@ -37,7 +34,7 @@ public class JobApplicationFormController {
 		insert contact;
 		
 		this.employee.Name = this.employee.FirstName__c + ' ' + this.employee.LastName__c;
-		this.employee.PhotoUrl__c = '/sfc/servlet.shepherd/version/download/' + image.Id;
+		this.employee.PhotoUrl__c = '/sfc/servlet.shepherd/version/download/' + this.imageId;
 		this.employee.EmployeeContact__c = contact.Id;
 		insert employee;
 		for (Skill__c skill : this.skills) {
@@ -52,6 +49,23 @@ public class JobApplicationFormController {
 	public void addSkill() {
 		if (this.skills.size() < 10) {
 			this.addNewSkill = true;
+		}
+		if (this.fileChanged) {
+			if (this.imageId != null) {
+				ContentVersion image = [SELECT Id FROM ContentVersion WHERE Id =: this.imageId];
+				image.Title = 'Candidate Photo ' + this.employee.LastName__c; 
+				image.VersionData = this.file;
+				image.PathOnClient = '/Candidate Photo ' + this.employee.LastName__c;
+				update image;
+			} else {
+				ContentVersion image = new ContentVersion();
+				image.Title = 'Candidate Photo ' + this.employee.LastName__c;
+				image.VersionData = this.file;
+				image.PathOnClient = '/Candidate Photo ' + this.employee.LastName__c;
+				insert image;
+				this.imageId = image.Id;
+			}
+			this.fileChanged = false;
 		}
 	}
 
