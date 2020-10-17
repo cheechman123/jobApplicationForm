@@ -76,7 +76,7 @@ public class JobApplicationFormController {
 				ContentVersion image = new ContentVersion();
 				image.Title = 'Candidate Photo ' + this.employee.LastName__c;
 				image.VersionData = this.file;
-				image.PathOnClient = '/Candidate Photo ' + this.employee.LastName__c;
+				image.PathOnClient = '/Candidate';
 				insert image;
 				this.imageId = image.Id;
 			}
