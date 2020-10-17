@@ -11,7 +11,9 @@ public class JobApplicationFormController {
 		this.fileChanged = true;
 		file = value;
 	}}
-	public Boolean fileChanged {get;set;}
+	public Boolean fileChanged {get {
+		return this.fileChanged == null? false : this.fileChanged;
+	} set;}
 
 	public JobApplicationFormController() {
 		this.employee = new Employee__c();
@@ -37,6 +39,19 @@ public class JobApplicationFormController {
 		this.employee.PhotoUrl__c = '/sfc/servlet.shepherd/version/download/' + this.imageId;
 		this.employee.EmployeeContact__c = contact.Id;
 		insert employee;
+
+		List<Group> groups = [SELECT id FROM Group where DeveloperName  = 'HRS'];
+		if (groups.isEmpty()) {
+			throw new NoSuchElementException('No HR group present!');
+		}
+
+		ContactShare contactShare = new ContactShare();
+		contactShare.ContactID = employee.EmployeeContact__c;
+		contactShare.UserOrGroupId = groups[0].Id;
+		contactShare.ContactAccessLevel = 'Edit';
+		contactShare.RowCause = Schema.ContactShare.RowCause.Manual;
+		insert contactShare;
+
 		for (Skill__c skill : this.skills) {
 			skill.Employee__c = employee.Id;
 		}
