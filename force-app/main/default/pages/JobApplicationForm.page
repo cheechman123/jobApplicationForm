@@ -1,20 +1,23 @@
 <apex:page docType="html-5.0" controller="JobApplicationFormController">
 	<style>
-		.application__form {
+		.application-form {
 			width: 60%;
 			min-width: 400px;
 			margin: 20px auto;
 			position: relative;
+			border: 1px solid #f3f3f3;
+			padding: 0 20px 10px;
+			box-shadow: 0 0 10px #ddd;
 		}
-		.section__header {
+		.section-header {
 			margin: 30px auto 10px;
 			color: #343434;
 			font-size: 27px;
 			font-family: 'Orienta', sans-serif;
 		}
-		.form__field {
+		.form-field {
 			border:0;
-			width: 90%;
+			width: 97%;
 			border-bottom:1px solid #555;
 			background:transparent;
 			padding:8px 0 5px 0;
@@ -22,90 +25,104 @@
 			color:#fff;
 			position: relative;
 		}
-		.field__error{
+		.field-error{
 			border-color: red;
 		}
-		.form__label {
+		.form-label {
 			display: block;
 			font-size: 1rem;
 			color: #9b9b9b;
 		}
-		.form__field:focus{ 
+		.form-field:focus{ 
 			border:none;
 			outline:none;
 			border-bottom:1px solid #e74c3c;	
 		}
-		.button__justify {
+		.form-button {
+			padding: 0 5px !important;
+		}
+		.form-button:hover {
+			background-color: #ddd;
+		}
+		.form-button:active, .form-button:focus {
+			box-shadow: none !important;
+			background-color: #ccc;
+		}
+		.button-justify {
 			display: flex; 
 			justify-content: center;
 		}
-		.bold__text {
-			font-weight: bold;
+		.bold-text {
+			font-weight: bold !important;
+		}
+		.submit {
+			display: block !important;
+			margin: 10px auto 0 !important;
 		}
 	</style>
 	
 	<apex:slds />
-	<div class="application__form">
-		<apex:form>
+	<div class="application-form">
+		<apex:form >
 			<div class="slds-grid slds-wrap">
 				<div class="slds-col slds-size_6-of-12">
-					<div class="section__header">
+					<div class="section-header">
 						Personal information
 					</div>
-					<apex:inputField required="true" value="{!employee.FirstName__c}" styleClass="form__field"/>
-					<label class="form__label">First Name</label>
-					<apex:inputField required="true" value="{!employee.LastName__c}" styleClass="form__field"/>
-					<label class="form__label">Last Name</label>
-					<apex:inputField required="true" value="{!employee.DateOfBirth__c}" styleClass="{!IF(LEN(birthDateError) > 0, 'form__field field__error', 'form__field')}"/>
-					<label class="form__label">Date Of Birth</label>
+					<apex:inputField required="true" value="{!employee.FirstName__c}" styleClass="form-field"/>
+					<label class="form-label">First Name</label>
+					<apex:inputField required="true" value="{!employee.LastName__c}" styleClass="form-field"/>
+					<label class="form-label">Last Name</label>
+					<apex:inputField required="true" value="{!employee.DateOfBirth__c}" styleClass="{!IF(LEN(birthDateError) > 0, 'form-field field-error', 'form-field')}"/>
+					<label class="form-label">Date Of Birth</label>
 					<apex:outputText style='color:red' value="{!birthDateError}" rendered="{!LEN(birthDateError) > 0}"/>
 				</div>
 				<div class="slds-col slds-size_6-of-12">
-					<div class="section__header">
+					<div class="section-header">
 						Photo
 					</div>
-					<apex:inputFile id="candidate_photo" onchange="getFile(this)" style="" accept="image/*" value="{!file}"/>
 					<apex:outputPanel rendered="{!ISBLANK(imageId)}" >
-						<img style="height: 300px; margin-right:auto; margin-left: auto; display:none" class="slds-m-top_small" id="output"/>
+						<img style="height: 300px; margin-right:auto; margin-left: auto; display:none" class="slds-m-bottom_small" id="output"/>
 					</apex:outputPanel>
 					<apex:outputPanel rendered="{!NOT(ISBLANK(imageId))}" >
 						<img src="{!'/sfc/servlet.shepherd/version/download/' + imageId}" style="height: 300px; margin-right:auto; margin-left: auto; display:block;" class="slds-m-top_small" id="output"/>
 					</apex:outputPanel>
+					<apex:inputFile id="candidate_photo" onchange="getFile(this)" style="" accept="image/*" value="{!file}"/>
 				</div>
 			</div>
 			
 			<div class="slds-grid">
 				<div class="slds-col slds-size_1-of-2">
-					<div class="section__header">
+					<div class="section-header">
 						Contact information
 					</div>
-					<apex:inputField required="true" value="{!employee.Email__c}" styleClass="form__field"/>
-					<label class="form__label">Email</label>
-					<apex:inputField required="true" value="{!employee.Phone__c}" styleClass="form__field"/>
-					<label class="form__label">Mobile Phone</label>
-					<apex:inputField required="true" value="{!employee.HomePhone__c}" styleClass="form__field"/>
-					<label class="form__label">Home Phone</label>
-					<apex:inputField value="{!employee.SalaryExpectations__c}" styleClass="form__field"/>
-					<label class="form__label">Salary Expectations</label>
+					<apex:inputField required="true" value="{!employee.Email__c}" styleClass="form-field"/>
+					<label class="form-label">Email</label>
+					<apex:inputField required="true" value="{!employee.Phone__c}" styleClass="form-field"/>
+					<label class="form-label">Mobile Phone</label>
+					<apex:inputField required="true" value="{!employee.HomePhone__c}" styleClass="form-field"/>
+					<label class="form-label">Home Phone</label>
+					<apex:inputField value="{!employee.SalaryExpectations__c}" styleClass="form-field"/>
+					<label class="form-label">Salary Expectations</label>
 				</div>
 				<div class="slds-col slds-size_1-of-2">
-					<div class="section__header">
+					<div class="section-header">
 						Address
 					</div>
-					<apex:inputField value="{!employee.City__c}" styleClass="form__field"/>
-					<label class="form__label">City</label>
-					<apex:inputField value="{!employee.Street__c}" styleClass="form__field"/>
-					<label class="form__label">Street</label>
-					<apex:inputField value="{!employee.PostalCode__c}" styleClass="form__field"/>
-					<label class="form__label">Postal Code</label>
+					<apex:inputField value="{!employee.City__c}" styleClass="form-field"/>
+					<label class="form-label">City</label>
+					<apex:inputField value="{!employee.Street__c}" styleClass="form-field"/>
+					<label class="form-label">Street</label>
+					<apex:inputField value="{!employee.PostalCode__c}" styleClass="form-field"/>
+					<label class="form-label">Postal Code</label>
 				</div>
 			</div>
-			<div class="section__header">
+			<div class="section-header">
 				Skills
 			</div>
 			<div class="slds-grid">
-				<table class="slds-table">
-					<thead style="border-bottom: 1px solid grey">
+				<table class="slds-table" style="box-shadow: 1px 1px 10px #ddd">
+					<thead style="{!IF(skills.size > 0 || addNewSkill, 'border-bottom: 1px solid grey', '')}">
 						<tr>
 							<th class="slds-col slds-size_6-of-12">
 								<div class="slds-truncate" title="Skill Name">Skill Name</div>
@@ -115,7 +132,7 @@
 							</th>
 							<th class="slds-col slds-size_1-of-12">
 								<div class="slds-truncate" title="Add">
-									<apex:commandButton styleClass="slds-button" disabled="{!skills.size = 10}" value="ADD" action="{!addSkill}"/>
+									<apex:commandButton styleClass="slds-button form-button" disabled="{!skills.size = 10}" value="ADD" action="{!addSkill}"/>
 								</div>
 							</th>
 						</tr>
@@ -130,7 +147,7 @@
 									<div class="slds-truncate" title="Skill Level">{!skill.Level__c}</div>
 								</td>
 								<td>
-									<apex:commandLink styleClass="slds-button button__justify bold__text" value="REMOVE" action="{!removeSkill}" >
+									<apex:commandLink styleClass="slds-button button-justify bold-text form-button" value="REMOVE" action="{!removeSkill}" >
 										<apex:param name="skillName" value="{!skill.Name}" assignTo="{!skillToRemove}"/>
 									</apex:commandLink>
 								</td>
@@ -153,7 +170,7 @@
 									</div>
 								</td>
 								<td>
-									<div class="slds-truncate" title="Save"><apex:commandButton styleClass="slds-button button__justify bold__text" value="SAVE" action="{!save}"/></div>
+									<div class="slds-truncate" title="Save"><apex:commandButton styleClass="slds-button form-button button-justify bold-text" value="SAVE" action="{!save}"/></div>
 								</td>
 							</apex:outputPanel>
 						</tr>
@@ -161,7 +178,7 @@
 				</table>
 			</div>
 
-			<apex:commandButton styleClass="slds-button bold__text slds-m-top_large slds-float_right" style="padding: 5px 10px; border: 1px solid #eee" value="SUBMIT" action="{!submit}"/>
+			<apex:commandButton styleClass="slds-button form-button submit bold-text slds-m-top_large" style="background-color: #f0fffe; border: 1px solid #eee" value="SUBMIT" action="{!submit}"/>
 		</apex:form>
 	</div>
 	<script>

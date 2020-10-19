@@ -26,19 +26,38 @@ public class JobApplicationFormController {
 			this.birthDateError = 'The candidate should be older that 18 years!';
 			return null;
 		}
+		List<Account> dummyAccounts = [SELECT Id FROM Account WHERE Name = 'Dummy'];
+		Account account = null;
+		if (dummyAccounts.isEmpty()) {
+			account = new Account(Name = 'Dummy');
+			insert account;
+		} else {
+			account = dummyAccounts[0];
+		}
 		Contact contact = new Contact();
 		contact.FirstName = this.employee.FirstName__c;
 		contact.LastName = this.employee.LastName__c;
 		contact.Phone = this.employee.Phone__c;
 		contact.HomePhone = this.employee.HomePhone__c;
 		contact.Email = this.employee.Email__c;
+		contact.AccountId = account.Id;
 		contact.ContactType__c = 'Employee';
 		insert contact;
 		
+		if (this.imageId == null && this.file != null) {
+			uploadImage();
+		}
 		this.employee.Name = this.employee.FirstName__c + ' ' + this.employee.LastName__c;
 		this.employee.PhotoUrl__c = '/sfc/servlet.shepherd/version/download/' + this.imageId;
 		this.employee.EmployeeContact__c = contact.Id;
 		insert employee;
+
+		Id contentDocumentId = [SELECT ContentDocumentId FROM ContentVersion WHERE Id =: this.imageId].ContentDocumentId;
+		ContentDocumentLink documentLink = new ContentDocumentLink();
+		documentLink.LinkedEntityId = employee.Id;
+		documentLink.ContentDocumentId = contentDocumentId;
+		documentLink.shareType = 'V';
+		insert documentLink;
 
 		List<Group> groups = [SELECT id FROM Group where DeveloperName  = 'HRS'];
 		if (groups.isEmpty()) {
@@ -73,12 +92,7 @@ public class JobApplicationFormController {
 				image.PathOnClient = '/Candidate Photo ' + this.employee.LastName__c;
 				update image;
 			} else {
-				ContentVersion image = new ContentVersion();
-				image.Title = 'Candidate Photo ' + this.employee.LastName__c;
-				image.VersionData = this.file;
-				image.PathOnClient = '/Candidate';
-				insert image;
-				this.imageId = image.Id;
+				uploadImage();
 			}
 			this.fileChanged = false;
 		}
@@ -97,14 +111,19 @@ public class JobApplicationFormController {
 		skill.Name = this.skillName;
 		skill.Level__c = this.skillLevel;
 		this.skills.add(skill);
-
+		
 		this.addNewSkill = false;
 		this.skillName = '';
 		this.skillLevel = '';
 	}
 
-	public class Skill {
-		public String name {get;set;}
-		public String level {get;set;}
+	private void uploadImage() {
+		ContentVersion image = new ContentVersion();
+		image.Title = 'Candidate Photo ' + this.employee.LastName__c;
+		image.VersionData = this.file;
+		image.PathOnClient = '/Candidate';
+		image.SharingOption = 'R';
+		insert image;
+		this.imageId = image.Id;
 	}
 }
