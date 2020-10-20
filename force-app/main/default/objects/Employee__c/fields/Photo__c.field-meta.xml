@@ -2,7 +2,7 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Photo__c</fullName>
     <externalId>false</externalId>
-    <formula>IMAGE(PhotoURL__c, &apos;No Candidate Photo&apos;, 250, 200)</formula>
+    <formula>IMAGE(PhotoURL__c, &apos;No Candidate Photo&apos;, 250, 250)</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
     <label>Photo</label>
     <required>false</required>
