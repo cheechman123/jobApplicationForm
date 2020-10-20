@@ -15,10 +15,18 @@ public class JobApplicationFormController {
 	public Boolean fileChanged {get {
 		return this.fileChanged == null? false : this.fileChanged;
 	} set;}
+	private Account dummyAccount {get;set;}
 
 	public JobApplicationFormController() {
 		this.employee = new Employee__c();
 		this.skills = new List<Skill__c>();
+		List<Account> dummyAccounts = [SELECT Id FROM Account WHERE Name = 'Dummy'];
+		if (dummyAccounts.isEmpty()) {
+			this.dummyAccount = new Account(Name = 'Dummy');
+			insert this.dummyAccount;
+		} else {
+			this.dummyAccount = dummyAccounts[0];
+		}
 	}
 
 	public PageReference submit() {
@@ -27,21 +35,15 @@ public class JobApplicationFormController {
 			this.birthDateError = 'The candidate should be older that 18 years!';
 			return null;
 		}
-		List<Account> dummyAccounts = [SELECT Id FROM Account WHERE Name = 'Dummy'];
-		Account account = null;
-		if (dummyAccounts.isEmpty()) {
-			account = new Account(Name = 'Dummy');
-			insert account;
-		} else {
-			account = dummyAccounts[0];
-		}
+		
+		
 		Contact contact = new Contact();
 		contact.FirstName = this.employee.FirstName__c;
 		contact.LastName = this.employee.LastName__c;
 		contact.Phone = this.employee.Phone__c;
 		contact.HomePhone = this.employee.HomePhone__c;
 		contact.Email = this.employee.Email__c;
-		contact.AccountId = account.Id;
+		contact.AccountId = this.dummyAccount.Id;
 		contact.ContactType__c = 'Employee';
 		insert contact;
 		
@@ -53,12 +55,14 @@ public class JobApplicationFormController {
 		this.employee.EmployeeContact__c = contact.Id;
 		insert employee;
 
-		Id contentDocumentId = [SELECT ContentDocumentId FROM ContentVersion WHERE Id =: this.imageId].ContentDocumentId;
-		ContentDocumentLink documentLink = new ContentDocumentLink();
-		documentLink.LinkedEntityId = employee.Id;
-		documentLink.ContentDocumentId = contentDocumentId;
-		documentLink.shareType = 'V';
-		insert documentLink;
+		if (this.imageId != null) {
+			Id contentDocumentId = [SELECT ContentDocumentId FROM ContentVersion WHERE Id =: this.imageId].ContentDocumentId;
+			ContentDocumentLink documentLink = new ContentDocumentLink();
+			documentLink.LinkedEntityId = employee.Id;
+			documentLink.ContentDocumentId = contentDocumentId;
+			documentLink.shareType = 'V';
+			insert documentLink;
+		}
 
 		List<Group> groups = [SELECT id FROM Group where DeveloperName  = 'HRS'];
 		if (groups.isEmpty()) {
