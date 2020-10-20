@@ -28,14 +28,17 @@ public class JobApplicationFormController {
 			this.dummyAccount = dummyAccounts[0];
 		}
 	}
-
+	
 	public PageReference submit() {
 		if (System.today().Year() - this.employee.DateOfBirth__c.Year() < 18 || 
-			(System.today().Year() - this.employee.DateOfBirth__c.Year() == 18 && System.today().month() - this.employee.DateOfBirth__c.month() < 0)) {
+		(System.today().Year() - this.employee.DateOfBirth__c.Year() == 18 && System.today().month() - this.employee.DateOfBirth__c.month() < 0)) {
 			this.birthDateError = 'The candidate should be older that 18 years!';
 			return null;
 		}
-		
+		List<Group> groups = [SELECT id FROM Group where DeveloperName  = 'HRS'];
+		if (groups.isEmpty()) {
+			throw new NoSuchElementException('No HR group present!');
+		}
 		
 		Contact contact = new Contact();
 		contact.FirstName = this.employee.FirstName__c;
@@ -62,11 +65,6 @@ public class JobApplicationFormController {
 			documentLink.ContentDocumentId = contentDocumentId;
 			documentLink.shareType = 'V';
 			insert documentLink;
-		}
-
-		List<Group> groups = [SELECT id FROM Group where DeveloperName  = 'HRS'];
-		if (groups.isEmpty()) {
-			throw new NoSuchElementException('No HR group present!');
 		}
 
 		ContactShare contactShare = new ContactShare();
