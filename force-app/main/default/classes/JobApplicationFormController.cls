@@ -6,6 +6,7 @@ public class JobApplicationFormController {
 	public String skillLevel {get;set;}
 	public String skillToRemove {get;set;}
 	public String birthDateError {get;set;}
+	public String skillNameError {get;set;}
 	public String imageId {get;set;}
 	public Blob file {get;set {
 		this.fileChanged = true;
@@ -107,6 +108,10 @@ public class JobApplicationFormController {
 	}
 
 	public void save() {
+		if (String.isBlank(this.skillName)) {
+			this.skillNameError = 'Please enter skill name';
+			return;
+		}
 		Skill__c skill = new Skill__c();
 		skill.Name = this.skillName;
 		skill.Level__c = this.skillLevel;
@@ -115,6 +120,7 @@ public class JobApplicationFormController {
 		this.addNewSkill = false;
 		this.skillName = '';
 		this.skillLevel = '';
+		this.skillNameError = null;
 	}
 
 	private void uploadImage() {

@@ -153,11 +153,11 @@
 								</td>
 							</tr>
 						</apex:repeat>
-						<tr>
-							<apex:outputPanel rendered="{!addNewSkill}" >
+						<apex:outputPanel rendered="{!addNewSkill}" >
+							<tr>
 								<td>
 									<div class="slds-truncate" title="Skill Name">
-										<apex:input value="{!skillName}" styleClass="slds-input" label="Skill Name" title="Skill Name"/>
+										<apex:input value="{!skillName}" styleClass="{!IF(NOT(ISBLANK(skillNameError)), 'slds-has-error slds-input', 'slds-input')}" label="Skill Name" title="Skill Name"/>
 									</div>
 								</td>
 								<td>
@@ -172,8 +172,13 @@
 								<td>
 									<div class="slds-truncate" title="Save"><apex:commandButton styleClass="slds-button form-button button-justify bold-text" value="SAVE" action="{!save}"/></div>
 								</td>
-							</apex:outputPanel>
-						</tr>
+							</tr>
+							<tr>
+								<td>
+									<apex:outputText style='color:red' value="{!skillNameError}" rendered="{!NOT(ISBLANK(skillNameError))}" />
+								</td>
+							</tr>
+						</apex:outputPanel>
 					</tbody>
 				</table>
 			</div>
