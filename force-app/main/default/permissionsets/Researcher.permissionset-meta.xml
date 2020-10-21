@@ -197,8 +197,8 @@
         <tab>standard-Contact</tab>
         <visibility>Visible</visibility>
     </tabSettings>
-    <tabVisibilities>
+    <tabSettings>
         <tab>JobApplicationForm</tab>
-        <visibility>DefaultOn</visibility>
-    </tabVisibilities>
+        <visibility>Visible</visibility>
+    </tabSettings>
 </PermissionSet>
