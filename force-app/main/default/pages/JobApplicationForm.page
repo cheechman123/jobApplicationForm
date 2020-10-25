@@ -1,13 +1,11 @@
-<apex:page docType="html-5.0" controller="JobApplicationFormController">
+<apex:page docType="html-5.0" controller="JobApplicationFormController" action="{!init}">
 	<style>
 		.application-form {
 			width: 60%;
 			min-width: 400px;
 			margin: 20px auto;
 			position: relative;
-			border: 1px solid #f3f3f3;
 			padding: 0 20px 10px;
-			box-shadow: 0 0 10px #ddd;
 		}
 		.section-header {
 			margin: 30px auto 10px;
@@ -57,7 +55,7 @@
 		}
 		.submit {
 			display: block !important;
-			margin: 10px auto 0 !important;
+			margin: 20px auto !important;
 		}
 	</style>
 	
@@ -183,7 +181,7 @@
 				</table>
 			</div>
 
-			<apex:commandButton styleClass="slds-button form-button submit bold-text slds-m-top_large" style="background-color: #f0fffe; border: 1px solid #eee" value="SUBMIT" action="{!submit}"/>
+			<apex:commandButton styleClass="slds-button form-button submit bold-text" style="background-color: #f0fffe; border: 1px solid #eee" value="SUBMIT" action="{!submit}"/>
 		</apex:form>
 	</div>
 	<script>

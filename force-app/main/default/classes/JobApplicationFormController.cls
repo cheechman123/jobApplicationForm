@@ -18,6 +18,10 @@ public class JobApplicationFormController {
 	private Account dummyAccount {get;set;}
 
 	public JobApplicationFormController() {
+		
+	}
+
+	public void init() {
 		this.employee = new Employee__c();
 		this.skills = new List<Skill__c>();
 		List<Account> dummyAccounts = [SELECT Id FROM Account WHERE Name = 'Dummy'];
